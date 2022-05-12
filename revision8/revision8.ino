@@ -191,11 +191,11 @@ int lastButtonState11 = 1;              // previous state of the button
 #include "AudioSampleG4.h"
 #include "AudioSampleG5.h"
 
-//#include "AudioSampleH1.h"
-//#include "AudioSampleH2.h"
-//#include "AudioSampleH3.h"
-//#include "AudioSampleH4.h"
-//#include "AudioSampleH5.h"
+#include "AudioSampleH1.h"
+#include "AudioSampleH2.h"
+#include "AudioSampleH3.h"
+#include "AudioSampleH4.h"
+#include "AudioSampleH5.h"
 // =====================================================================================================================================================================================
 // Teensy Library inclusions
 
@@ -273,8 +273,11 @@ AudioConnection          patchCord25(delay1, 0, mixerdelay, 0);
 AudioConnection          patchCord26(delay1, 1, mixerdelay, 1);
 AudioConnection          patchCord27(delay1, 2, mixerdelay, 2);
 AudioConnection          patchCord28(delay1, 3, mixerdelay, 3);
+AudioConnection          patchCord29(i2s2, 0, queue1, 0);
+AudioConnection          patchCord30(i2s2, 0, peak1, 0);
 AudioConnection          patchCord29(freeverb1, 0, mixersum, 2);
 AudioConnection          patchCord30(mixerdelay, 0, mixersum, 1);
+AudioConnection          patchCord32(playRaw1, 0, mixersum, 3);
 AudioConnection          patchCord31(mixersum, 0, i2s1, 0);
 AudioConnection          patchCord32(mixersum, 0, i2s1, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=384.0056838989258,860
