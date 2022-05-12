@@ -240,7 +240,11 @@ AudioEffectDelay         delay1;         //xy=594.0056762695312,266
 AudioEffectFreeverb      freeverb1;      //xy=636.0056838989258,467
 AudioMixer4              mixerdelay;     //xy=727.0056762695312,241
 AudioMixer4              mixersum;       //xy=872.0056762695312,248
-AudioOutputI2S           i2s2;           //xy=1023.0056762695312,241
+AudioOutputI2S           i2s1;           //xy=1023.0056762695312,241
+AudioInputI2S            i2s2;         //xy=611.4285697937012,685.7142753601074
+AudioPlaySdRaw           playRaw1;     //xy=674.2856979370117,589.9999809265137
+AudioAnalyzePeak         peak1;          //xy=774.2857627868652,702.8570785522461
+AudioRecordQueue         queue1;         //xy=778.5714836120605,659.9999809265137
 AudioConnection          patchCord1(playMem3, 0, mixer4, 2);
 AudioConnection          patchCord2(playMem3, 0, mixer7, 2);
 AudioConnection          patchCord3(playMem3, 0, mixer1, 2);
@@ -271,8 +275,8 @@ AudioConnection          patchCord27(delay1, 2, mixerdelay, 2);
 AudioConnection          patchCord28(delay1, 3, mixerdelay, 3);
 AudioConnection          patchCord29(freeverb1, 0, mixersum, 2);
 AudioConnection          patchCord30(mixerdelay, 0, mixersum, 1);
-AudioConnection          patchCord31(mixersum, 0, i2s2, 0);
-AudioConnection          patchCord32(mixersum, 0, i2s2, 1);
+AudioConnection          patchCord31(mixersum, 0, i2s1, 0);
+AudioConnection          patchCord32(mixersum, 0, i2s1, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=384.0056838989258,860
 
 // Bounce 5 sample buttons.
