@@ -120,11 +120,11 @@ int lastButtonState5 = 0;              // previous state of the button
 #include "AudioSampleG4.h"
 #include "AudioSampleG5.h"
 
-//#include "AudioSampleH1.h"
-//#include "AudioSampleH2.h"
-//#include "AudioSampleH3.h"
-//#include "AudioSampleH4.h"
-//#include "AudioSampleH5.h"
+#include "AudioSampleH1.h"
+#include "AudioSampleH2.h"
+#include "AudioSampleH3.h"
+#include "AudioSampleH4.h"
+#include "AudioSampleH5.h"
 // =====================================================================================================================================================================================
 // Teensy Library inclusions
 
