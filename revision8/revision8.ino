@@ -289,6 +289,24 @@ Bounce button2 = Bounce(2, 15);
 Bounce button3 = Bounce(3, 15);
 Bounce button4 = Bounce(4, 15);
 
+
+char* getFileNameFromIndex(int index) {
+  if (index == 0) {
+    return (char*)"RECORD1.RAW";
+  } else   if (index == 1) {
+    return (char*)"RECORD2.RAW";
+  } else   if (index == 2) {
+    return (char*)"RECORD3.RAW";
+  } else   if (index == 3) {
+    return (char*)"RECORD4.RAW";
+  } else   if (index == 4) {
+    return (char*)"RECORD5.RAW";
+  } else   if (index == 5) {
+    return (char*)"RECORD6.RAW";
+  }
+  return (char*)"RECORD7.RAW";
+}
+
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void setup() {
   Serial.begin (9600);
