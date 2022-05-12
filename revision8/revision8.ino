@@ -91,8 +91,8 @@ int lastButtonState6 = 1;              // previous state of the button
 
 
 // this constant won't change:
-const int samplePin1 = 5;    // the pin that the pushbutton is attached to
-const int ledSample1 = 8;       // the pin that the LED is attached to
+const int samplePin1 = 9;    // the pin that the pushbutton is attached to
+const int ledSample1 = 10;       // the pin that the LED is attached to
 
 // Variables will change:
 int buttonPushCounter7 = -1;             // counter for the number of button presses
@@ -101,8 +101,8 @@ int lastButtonState7 = 1;              // previous state of the button
 
 
 // this constant won't change:
-const int samplePin2 = 6;    // the pin that the pushbutton is attached to
-const int ledSample2 = 9;       // the pin that the LED is attached to
+const int samplePin2 = 39;    // the pin that the pushbutton is attached to
+const int ledSample2 = 27;       // the pin that the LED is attached to
 
 // Variables will change:
 int buttonPushCounter8 = -1;             // counter for the number of button presses
@@ -111,8 +111,8 @@ int lastButtonState8 = 1;              // previous state of the button
 
 
 // this constant won't change:
-const int samplePin3 = 7;    // the pin that the pushbutton is attached to
-const int ledSample3 = 10;       // the pin that the LED is attached to
+const int samplePin3 = 40;    // the pin that the pushbutton is attached to
+const int ledSample3 = 26;       // the pin that the LED is attached to
 
 // Variables will change:
 int buttonPushCounter9 = -1;             // counter for the number of button presses
@@ -121,8 +121,8 @@ int lastButtonState9 = 1;              // previous state of the button
 
 
 // this constant won't change:
-const int samplePin4 = 11;    // the pin that the pushbutton is attached to
-const int ledSample4 = 12;       // the pin that the LED is attached to
+const int samplePin4 = 34;    // the pin that the pushbutton is attached to
+const int ledSample4 = 32;       // the pin that the LED is attached to
 
 // Variables will change:
 int buttonPushCounter10 = -1;             // counter for the number of button presses
@@ -131,8 +131,8 @@ int lastButtonState10 = 1;              // previous state of the button
 
 
 // this constant won't change:
-const int samplePin5 = 123456789;    // the pin that the pushbutton is attached to
-const int ledSample5 = 987654321;       // the pin that the LED is attached to
+const int samplePin5 = 37;    // the pin that the pushbutton is attached to
+const int ledSample5 = 29;       // the pin that the LED is attached to
 
 // Variables will change:
 int buttonPushCounter11 = -1;             // counter for the number of button presses
