@@ -275,9 +275,9 @@ AudioConnection          patchCord27(delay1, 2, mixerdelay, 2);
 AudioConnection          patchCord28(delay1, 3, mixerdelay, 3);
 AudioConnection          patchCord29(i2s2, 0, queue1, 0);
 AudioConnection          patchCord30(i2s2, 0, peak1, 0);
-AudioConnection          patchCord29(freeverb1, 0, mixersum, 2);
-AudioConnection          patchCord30(mixerdelay, 0, mixersum, 1);
-AudioConnection          patchCord32(playRaw1, 0, mixersum, 3);
+AudioConnection          patchCord33(freeverb1, 0, mixersum, 2);
+AudioConnection          patchCord34(mixerdelay, 0, mixersum, 1);
+AudioConnection          patchCord35(playRaw1, 0, mixersum, 3);
 AudioConnection          patchCord31(mixersum, 0, i2s1, 0);
 AudioConnection          patchCord32(mixersum, 0, i2s1, 1);
 AudioControlSGTL5000     sgtl5000_1;     //xy=384.0056838989258,860
@@ -483,7 +483,7 @@ const int myInput = AUDIO_INPUT_MIC;
 Recorder recorder = Recorder();
 bool isPlaying = true;
 
-int assignedSamples[5] = { -1, -1, -1, -1, -1 }; `
+int assignedSamples[5] = { -1, -1, -1, -1, -1 };
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void setup() {
@@ -601,8 +601,10 @@ void loop() {
 
   if (buttonPushCounter % 2 == 0) {
     digitalWrite(ledPin, HIGH);
+    isPlaying = true;
   } else {
     digitalWrite(ledPin, LOW);
+    isPlaying = false;
   }
 
 
@@ -941,13 +943,10 @@ void loop() {
   //     {  samples_crusher.gain(0, 0.4);
   //        samples_crusher.gain(1, 0.4);}
 
-  if (digitalRead (ledPin) == HIGH) {   //play stop
-
+  if (isPlaying) {   //play stop
 
     //change sample with kitSelect
-
     int kitSelect = analogRead(A12);
-
 
     //  Serial.println(kitSelect);
     if (button0.fallingEdge()) {
@@ -1035,4 +1034,51 @@ void loop() {
 
     }
   }
+    // If we're playing or recording, carry on...
+  if (recorder.mode == 1) recorder.continueRecording();
+  if (recorder.mode == 3) continuePlayingRecording();
+}
+
+
+void checkForPlayerButton(Bounce SamplePlayer, int sampleIndex, int recordsIndex) {
+  if (SamplePlayer.fallingEdge()) {
+    Serial.print(">>> Play channel ");
+    Serial.println(sampleIndex+1);
+    if (recorder.mode == 1) recorder.stopRecording();
+    if (recorder.mode == 0 || recorder.mode == 3) startPlayingRecording(sampleIndex);
+    else if (recorder.mode == 2) assignSampleToChannel(recordsIndex, sampleIndex);
+  }
+}
+
+
+void startPlayingRecording(int channelIndex) {
+  if (!playRaw1.isPlaying()) playRaw1.stop();
+  Serial.print("startPlaying file ");
+  int fileIndex = assignedSamples[channelIndex];
+  Serial.println(fileIndex);
+  playRaw1.play(getFileNameFromIndex(fileIndex));
+  recorder.mode = 3;
+}
+
+void continuePlayingRecording() {
+  if (!playRaw1.isPlaying()) {
+    playRaw1.stop();
+    recorder.mode = 0;
+  }
+}
+
+void stopPlayingRecording() {
+  Serial.println("stopPlaying");
+  if (recorder.mode == 3) playRaw1.stop();
+  recorder.mode = 0;
+}
+
+void assignSampleToChannel(int sampleIndex, int channelIndex) {
+  Serial.print("Assigning sample ");
+  Serial.print(sampleIndex);
+  Serial.print(" to channel ");
+  Serial.println(channelIndex+1);
+  assignedSamples[channelIndex] = sampleIndex;
+  recorder.mode = 0;
+  recorder.recordsIndex++;
 }
