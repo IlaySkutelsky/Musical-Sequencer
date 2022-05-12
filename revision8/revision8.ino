@@ -501,6 +501,18 @@ void setup() {
   pinMode(ledMute4, OUTPUT);
   pinMode(mutePin5, INPUT);
   pinMode(ledMute5, OUTPUT);
+  pinMode(recordPin, INPUT);
+  pinMode(ledRecord, OUTPUT);
+  pinMode(samplePin1, INPUT);
+  pinMode(ledSample1, OUTPUT);
+  pinMode(samplePin2, INPUT);
+  pinMode(ledSample2, OUTPUT);
+  pinMode(samplePin3, INPUT);
+  pinMode(ledSample3, OUTPUT);
+  pinMode(samplePin4, INPUT);
+  pinMode(ledSample4, OUTPUT);
+  pinMode(samplePin5, INPUT);
+  pinMode(ledSample5, OUTPUT);
 
   //Samples
   pinMode(0, INPUT_PULLUP); //sample buttons
@@ -513,6 +525,10 @@ void setup() {
   AudioMemory(1024);
   sgtl5000_1.enable();
   sgtl5000_1.volume(1);
+  sgtl5000_1.inputSelect(myInput);
+  sgtl5000_1.lineInLevel(0);
+  sgtl5000_1.micGain(32);
+  recorder.peakDetection.begin(24, 4, 0.9); //lag, threshold, influence
   mixer1.gain(0, 0.4);
   mixer1.gain(1, 0.4);
   mixer1.gain(2, 0.4);
@@ -541,6 +557,7 @@ void setup() {
   mixersum.gain(0, 1);
   mixersum.gain(1, 1);
   mixersum.gain(2, 1);
+  mixersum.gain(3, 1);
   delay1.delay(0, 200);
   delay1.delay(1, 400);
   delay1.delay(2, 600);
