@@ -731,6 +731,132 @@ void loop() {
   }
 
 
+  // read the pushbutton input pin:
+  buttonState6 = digitalRead(recordPin);
+  // compare the buttonState to its previous state
+  if (buttonState6 != lastButtonState6) {
+    if (buttonState6 == HIGH) {
+      buttonPushCounter6++;
+      Serial.println(">>> Record Button Press");
+      Serial.print("mode ");
+      Serial.println(recorder.mode);
+      if (recorder.mode == 3) stopPlayingRecording();
+      if (recorder.mode == 0) recorder.startRecording();
+    }
+  }
+  lastButtonState6 = buttonState6;
+
+  if (buttonPushCounter6 % 2 == 0) {
+    digitalWrite(ledRecord, HIGH);
+    } else {
+    digitalWrite(ledRecord, LOW);
+  }
+
+  
+   // read the pushbutton input pin:
+  buttonState7 = digitalRead(samplePin1);
+
+  // compare the buttonState to its previous state
+  if (buttonState7 != lastButtonState7) {
+    if (buttonState7 == LOW) {
+      buttonPushCounter7++;
+      Serial.println(">>> Play channel 1");
+      if (recorder.mode == 1) recorder.stopRecording();
+      if (recorder.mode == 0 || recorder.mode == 3) startPlayingRecording(0);
+      else if (recorder.mode == 2) assignSampleToChannel(recorder.recordsIndex, 0);
+    }
+  }
+  lastButtonState7 = buttonState7;
+
+  if (buttonPushCounter7 % 2 == 0) {
+    digitalWrite(ledSample1, HIGH);
+    } else {
+    digitalWrite(ledSample1, LOW);
+  }
+
+     // read the pushbutton input pin:
+  buttonState8 = digitalRead(samplePin2);
+
+  // compare the buttonState to its previous state
+  if (buttonState8 != lastButtonState8) {
+    if (buttonState8 == LOW) {
+      buttonPushCounter8++;
+      Serial.println(">>> Play channel 2");
+      if (recorder.mode == 1) recorder.stopRecording();
+      if (recorder.mode == 0 || recorder.mode == 3) startPlayingRecording(1);
+      else if (recorder.mode == 2) assignSampleToChannel(recorder.recordsIndex, 1);
+    }
+  }
+  lastButtonState8 = buttonState8;
+
+  if (buttonPushCounter8 % 2 == 0) {
+    digitalWrite(ledSample2, HIGH);
+    } else {
+    digitalWrite(ledSample2, LOW);
+  }
+  
+  
+  // read the pushbutton input pin:
+  buttonState9 = digitalRead(samplePin3);
+
+  // compare the buttonState to its previous state
+  if (buttonState9 != lastButtonState9) {
+    if (buttonState9 == LOW) {
+      buttonPushCounter9++;
+      Serial.println(">>> Play channel 3");
+      if (recorder.mode == 1) recorder.stopRecording();
+      if (recorder.mode == 0 || recorder.mode == 3) startPlayingRecording(2);
+      else if (recorder.mode == 2) assignSampleToChannel(recorder.recordsIndex, 2);
+    }
+  }
+  lastButtonState9 = buttonState9;
+
+  if (buttonPushCounter9 % 2 == 0) {
+    digitalWrite(ledSample3, HIGH);
+    } else {
+    digitalWrite(ledSample3, LOW);
+  }
+
+    // read the pushbutton input pin:
+  buttonState10 = digitalRead(samplePin4);
+
+  // compare the buttonState to its previous state
+  if (buttonState10 != lastButtonState10) {
+    if (buttonState10 == LOW) {
+      buttonPushCounter10++;
+      Serial.println(">>> Play channel 4");
+      if (recorder.mode == 1) recorder.stopRecording();
+      if (recorder.mode == 0 || recorder.mode == 3) startPlayingRecording(3);
+      else if (recorder.mode == 2) assignSampleToChannel(recorder.recordsIndex, 3);
+    }
+  }
+  lastButtonState10 = buttonState10;
+
+  if (buttonPushCounter10 % 2 == 0) {
+    digitalWrite(ledSample4, HIGH);
+    } else {
+    digitalWrite(ledSample4, LOW);
+  }
+  
+  // read the pushbutton input pin:
+  buttonState11 = digitalRead(samplePin5);
+
+  // compare the buttonState to its previous state
+  if (buttonState11 != lastButtonState11) {
+    if (buttonState11 == HIGH) {
+      buttonPushCounter11++;
+      Serial.println("sample btn 5");
+    }
+  }
+  lastButtonState11 = buttonState11;
+
+  if (buttonPushCounter11 % 2 == 0) {
+    digitalWrite(ledSample5, HIGH);
+   } else {
+    digitalWrite(ledSample5, LOW);
+  }
+  
+
   // Update all the button objects
   button0.update();
   button1.update();
