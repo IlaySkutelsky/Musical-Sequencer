@@ -307,6 +307,184 @@ char* getFileNameFromIndex(int index) {
   return (char*)"RECORD7.RAW";
 }
 
+
+class Recorder {
+  public:
+    // The file where data is recorded
+    PeakDetection peakDetection; // create PeakDetection object
+    
+    File frec;
+    int mode; // 0=stopped, 1=recording, 2=assigning, 3=playing
+    bool detectedPeak;
+    bool startedRecording;
+
+    elapsedMillis preRecordingDelayMillis;
+    elapsedMillis recordingMillis;
+    elapsedMillis peakDetectionMillis;
+    int recordsIndex;
+
+    unsigned int peakSamplingInterval;
+    unsigned int preRecordingDelay;
+    unsigned int recordingMaxTime;
+
+    Recorder() {
+      this->mode = 0;
+      this->detectedPeak = false;
+      this->startedRecording = false;
+      this->recordsIndex = 0;
+      this->peakDetectionMillis = 0;
+
+      this->peakSamplingInterval = 30;
+      this->preRecordingDelay = 400;
+      this->recordingMaxTime = 2000;
+    }
+
+    void startRecording() {
+      Serial.print("startRecording file ");
+      Serial.println(this->recordsIndex+1);
+      this->recordingMillis = 0;
+      this->preRecordingDelayMillis = 0;
+      if (SD.exists(getFileNameFromIndex(this->recordsIndex))) {
+        // The SD library writes new data to the end of the
+        // file, so to start a new recording, the old file
+        // must be deleted before new data is written.
+        SD.remove(getFileNameFromIndex(this->recordsIndex));
+      }
+      this->frec = SD.open(getFileNameFromIndex(this->recordsIndex), FILE_WRITE);
+      if (this->frec) {
+    //    queue1.begin();
+        this->mode = 1;
+      }
+    }
+
+    void continueRecording() {
+//      Serial.print(this->preRecordingDelayMillis);
+//      Serial.print(", ");
+//      Serial.print(this->recordingMillis);
+//      Serial.print(", ");
+//      Serial.println(this->detectedPeak);
+      if (!this->startedRecording) this->checkForPeak();
+      if (this->preRecordingDelayMillis < this->preRecordingDelay) {
+        this->recordingMillis = 0;
+        return;
+      }
+      if (this->detectedPeak == false) {
+        this->recordingMillis = 0;
+        return;
+      }
+      if (!this->startedRecording) {
+        this->startedRecording = true;
+        Serial.println("NOW RECORDING FR");
+        queue1.begin();
+      }
+      if (queue1.available() >= 2) {
+        byte buffer[512];
+        // Fetch 2 blocks from the audio library and copy
+        // into a 512 byte buffer.  The Arduino SD library
+        // is most efficient when full 512 byte sector size
+        // writes are used.
+        memcpy(buffer, queue1.readBuffer(), 256);
+        queue1.freeBuffer();
+        memcpy(buffer+256, queue1.readBuffer(), 256);
+        queue1.freeBuffer();
+        // write all 512 bytes to the SD card
+        //elapsedMicros usec = 0;
+        this->frec.write(buffer, 512);
+        // Uncomment these lines to see how long SD writes
+        // are taking.  A pair of audio blocks arrives every
+        // 5802 microseconds, so hopefully most of the writes
+        // take well under 5802 us.  Some will take more, as
+        // the SD library also must write to the FAT tables
+        // and the SD card controller manages media erase and
+        // wear leveling.  The queue1 object can buffer
+        // approximately 301700 us of audio, to allow time
+        // for occasional high SD card latency, as long as
+        // the average write time is under 5802 us.
+        //Serial.print("SD write, us=");
+        //Serial.println(usec);
+      }
+      if (this->recordingMillis > this->recordingMaxTime) {
+        this->stopRecording();
+      }
+    }
+
+    void stopRecording() {
+      Serial.println("stopRecording");
+      queue1.end();
+      if (this->mode == 1) {
+        while (queue1.available() > 0) {
+          this->frec.write((byte*)queue1.readBuffer(), 256);
+          queue1.freeBuffer();
+        }
+        this->frec.close();
+      }
+      this->mode = 2;
+      if (this->recordsIndex > 4) this->recordsIndex = 0;
+      this->detectedPeak = false;
+      this->startedRecording = false;
+    }
+
+    void checkForPeak() {
+      if (peak1.available() && this->peakDetectionMillis > this->peakSamplingInterval) {
+        this->peakDetectionMillis = 0;
+        float number = peak1.read();
+        this->peakDetection.add(number);
+        double peakD = this->peakDetection.getPeak();
+        if (this->preRecordingDelayMillis > this->preRecordingDelay && !this->detectedPeak && peakD == 1.00) {
+          Serial.println("PEAK!!");
+          this->detectedPeak = true;
+        }
+        this->printBars(number, peakD);
+      }
+    }
+
+    void printBars(float number, double peakD) {
+      int peak = number * 30.0;
+      int count;
+      for (count=0; count < 30-peak; count++) {
+        Serial.print(" ");
+      }
+      while (count++ < 30) {
+        Serial.print("<");
+      }
+      Serial.print("||");
+      for (count=0; count < peak; count++) {
+        Serial.print(">");
+      }
+      while (count++ < 30) {
+        Serial.print(" ");
+      }
+      Serial.print(number);
+      Serial.print(", ");
+      Serial.println(peakD);
+    }
+};
+
+
+// which input on the audio shield will be used?
+//const int myInput = AUDIO_INPUT_LINEIN;
+const int myInput = AUDIO_INPUT_MIC;
+
+// Use these with the Teensy Audio Shield
+#define SDCARD_CS_PIN    10
+#define SDCARD_MOSI_PIN  7
+#define SDCARD_SCK_PIN   14
+
+// Use these with the Teensy 3.5 & 3.6 SD card
+//#define SDCARD_CS_PIN    BUILTIN_SDCARD
+//#define SDCARD_MOSI_PIN  11  // not actually used
+//#define SDCARD_SCK_PIN   13  // not actually used
+
+// Use these for the SD+Wiz820 or other adaptors
+//#define SDCARD_CS_PIN    4
+//#define SDCARD_MOSI_PIN  11
+//#define SDCARD_SCK_PIN   13
+
+Recorder recorder = Recorder();
+bool isPlaying = true;
+
+int assignedSamples[5] = { -1, -1, -1, -1, -1 }; `
+
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void setup() {
   Serial.begin (9600);
