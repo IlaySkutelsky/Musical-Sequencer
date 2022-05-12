@@ -3,6 +3,16 @@
 // http://www.pjrc.com/store/audio_tutorial_kit.html
 // https://hackaday.io/project/8292-microcontroller-audio-workshop-had-supercon-2015
 
+#include <PeakDetection.h>
+#include <Bounce.h>
+#include <Audio.h>
+#include <Wire.h>
+#include <SPI.h>
+#include <SD.h>
+#include <SerialFlash.h>
+#include <elapsedMillis.h>
+
+
 // latching buttons initial setup
 // this constant won't change:
 const int  buttonPin = 33;    // the pin that the pushbutton is attached to
@@ -74,7 +84,6 @@ int lastButtonState5 = 0;              // previous state of the button
 //effect variable potentiometer
 // initial delaytime value
 
-
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // WAV files converted to code by wav2sketch --- Samples on the internal memory
@@ -128,12 +137,6 @@ int lastButtonState5 = 0;              // previous state of the button
 // =====================================================================================================================================================================================
 // Teensy Library inclusions
 
-#include <Audio.h>
-#include <Wire.h>
-#include <SPI.h>
-#include <SD.h>
-#include <SerialFlash.h>
-#include <Bounce.h>
 
 
 // GUItool: begin automatically generated code
