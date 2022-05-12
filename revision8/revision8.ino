@@ -565,6 +565,18 @@ void setup() {
   // delay1.disable(1);
   // delay1.disable(2);
   freeverb1.roomsize(1);
+
+    
+  // Initialize the SD card
+  SPI.setMOSI(SDCARD_MOSI_PIN);
+  SPI.setSCK(SDCARD_SCK_PIN);
+  if (!(SD.begin(SDCARD_CS_PIN))) {
+    // stop here if no SD card, but print a message
+    while (1) {
+      Serial.println("Unable to access the SD card");
+      delay(500);
+    }
+  }
 }
 
 void loop() {
