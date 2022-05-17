@@ -3,19 +3,9 @@
 // http://www.pjrc.com/store/audio_tutorial_kit.html
 // https://hackaday.io/project/8292-microcontroller-audio-workshop-had-supercon-2015
 
-#include <PeakDetection.h>
-#include <Bounce.h>
-#include <Audio.h>
-#include <Wire.h>
-#include <SPI.h>
-#include <SD.h>
-#include <SerialFlash.h>
-#include <elapsedMillis.h>
-
-
 // latching buttons initial setup
 // this constant won't change:
-const int  buttonPin = 33;    // the pin that the pushbutton is attached to
+const int buttonPin = 33;    // the pin that the pushbutton is attached to
 const int ledPin = 13;       // the pin that the LED is attached to
 
 // Variables will change:
@@ -68,7 +58,6 @@ int buttonState4 = 0;                  // current state of the button
 int lastButtonState4 = 0;              // previous state of the button
 
 
-
 // this constant won't change:
 const int  mutePin2 = 12;    // the pin that the pushbutton is attached to
 const int ledMute2 = 11;       // the pin that the LED is attached to
@@ -78,11 +67,11 @@ int buttonPushCounter5 = 0;             // counter for the number of button pres
 int buttonState5 = 0;                  // current state of the button
 int lastButtonState5 = 0;              // previous state of the button
 
-// -------
+
 
 // this constant won't change:
-const int recordPin = 123456789;    // the pin that the pushbutton is attached to
-const int ledRecord = 987654321;       // the pin that the LED is attached to
+const int recordPin = 37;    // the pin that the pushbutton is attached to
+const int ledRecord = 29;       // the pin that the LED is attached to
 
 // Variables will change:
 int buttonPushCounter6 = -1;             // counter for the number of button presses
@@ -112,7 +101,7 @@ int lastButtonState8 = 1;              // previous state of the button
 
 // this constant won't change:
 const int samplePin3 = 40;    // the pin that the pushbutton is attached to
-const int ledSample3 = 26;       // the pin that the LED is attached to
+const int ledSample3 = 5;       // the pin that the LED is attached to
 
 // Variables will change:
 int buttonPushCounter9 = -1;             // counter for the number of button presses
@@ -131,13 +120,13 @@ int lastButtonState10 = 1;              // previous state of the button
 
 
 // this constant won't change:
-const int samplePin5 = 37;    // the pin that the pushbutton is attached to
-const int ledSample5 = 29;       // the pin that the LED is attached to
-
-// Variables will change:
-int buttonPushCounter11 = -1;             // counter for the number of button presses
-int buttonState11 = 0;                  // current state of the button
-int lastButtonState11 = 1;              // previous state of the button
+//const int samplePin5 = 37;    // the pin that the pushbutton is attached to
+//const int ledSample5 = 29;       // the pin that the LED is attached to
+//
+//// Variables will change:
+//int buttonPushCounter11 = 0;             // counter for the number of button presses
+//int buttonState11 = 0;                  // current state of the button
+//int lastButtonState11 = 0;              // previous state of the button
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -146,141 +135,210 @@ int lastButtonState11 = 1;              // previous state of the button
 //effect variable potentiometer
 // initial delaytime value
 
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // WAV files converted to code by wav2sketch --- Samples on the internal memory
-#include "AudioSampleA1.h"
-#include "AudioSampleA2.h"
-#include "AudioSampleA3.h"
-#include "AudioSampleA4.h"
-#include "AudioSampleA5.h"
+//#include "AudioSampleA1.h"
+//#include "AudioSampleA2.h"
+//#include "AudioSampleA3.h"
+//#include "AudioSampleA4.h"
+//#include "AudioSampleA5.h"
 
-#include "AudioSampleB1.h"
-#include "AudioSampleB2.h"
-#include "AudioSampleB3.h"
-#include "AudioSampleB4.h"
-#include "AudioSampleB5.h"
+const char AudioSampleA1[12] = "kits/a1.wav";
+const char AudioSampleA2[12] = "kits/a2.wav";
+const char AudioSampleA3[12] = "kits/a3.wav";
+const char AudioSampleA4[12] = "kits/a4.wav";
+const char AudioSampleA5[12] = "kits/a5.wav";
 
-#include "AudioSampleC1.h"
-#include "AudioSampleC2.h"
-#include "AudioSampleC3.h"
-#include "AudioSampleC4.h"
-#include "AudioSampleC5.h"
 
-#include "AudioSampleD1.h"
-#include "AudioSampleD2.h"
-#include "AudioSampleD3.h"
-#include "AudioSampleD4.h"
-#include "AudioSampleD5.h"
+//#include "AudioSampleB1.h"
+//#include "AudioSampleB2.h"
+//#include "AudioSampleB3.h"
+//#include "AudioSampleB4.h"23
+//#include "AudioSampleB5.h"
 
-#include "AudioSampleE1.h"
-#include "AudioSampleE2.h"
-#include "AudioSampleE3.h"
-#include "AudioSampleE4.h"
-#include "AudioSampleE5.h"
+const char AudioSampleB1[12] = "kits/b1.wav";
+const char AudioSampleB2[12] = "kits/b2.wav";
+const char AudioSampleB3[12] = "kits/b3.wav";
+const char AudioSampleB4[12] = "kits/b4.wav";
+const char AudioSampleB5[12] = "kits/b5.wav";
 
-#include "AudioSampleF1.h"
-#include "AudioSampleF2.h"
-#include "AudioSampleF3.h"
-#include "AudioSampleF4.h"
-#include "AudioSampleF5.h"
 
-#include "AudioSampleG1.h"
-#include "AudioSampleG2.h"
-#include "AudioSampleG3.h"
-#include "AudioSampleG4.h"
-#include "AudioSampleG5.h"
+//#include "AudioSampleC1.h"
+//#include "AudioSampleC2.h"
+//#include "AudioSampleC3.h"
+//#include "AudioSampleC4.h"
+//#include "AudioSampleC5.h"
 
-#include "AudioSampleH1.h"
-#include "AudioSampleH2.h"
-#include "AudioSampleH3.h"
-#include "AudioSampleH4.h"
-#include "AudioSampleH5.h"
+const char AudioSampleC1[12] = "kits/c1.wav";
+const char AudioSampleC2[12] = "kits/c2.wav";
+const char AudioSampleC3[12] = "kits/c3.wav";
+const char AudioSampleC4[12] = "kits/c4.wav";
+const char AudioSampleC5[12] = "kits/c5.wav";
+
+
+//#include "AudioSampleD1.h"
+//#include "AudioSampleD2.h"
+//#include "AudioSampleD3.h"
+//#include "AudioSampleD4.h"
+//#include "AudioSampleD5.h"
+
+const char AudioSampleD1[12] = "kits/d1.wav";
+const char AudioSampleD2[12] = "kits/d2.wav";
+const char AudioSampleD3[12] = "kits/d3.wav";
+const char AudioSampleD4[12] = "kits/d4.wav";
+const char AudioSampleD5[12] = "kits/d5.wav";
+
+//#include "AudioSampleE1.h"
+//#include "AudioSampleE2.h"
+//#include "AudioSampleE3.h"
+//#include "AudioSampleE4.h"
+//#include "AudioSampleE5.h"
+
+const char AudioSampleE1[12] = "kits/e1.wav";
+const char AudioSampleE2[12] = "kits/e2.wav";
+const char AudioSampleE3[12] = "kits/e3.wav";
+const char AudioSampleE4[12] = "kits/e4.wav";
+const char AudioSampleE5[12] = "kits/e5.wav";
+
+
+//#include "AudioSampleF1.h"
+//#include "AudioSampleF2.h"
+//#include "AudioSampleF3.h"
+//#include "AudioSampleF4.h"
+//#include "AudioSampleF5.h"
+
+const char AudioSampleF1[12] = "kits/f1.wav";
+const char AudioSampleF2[12] = "kits/f2.wav";
+const char AudioSampleF3[12] = "kits/f3.wav";
+const char AudioSampleF4[12] = "kits/f4.wav";
+const char AudioSampleF5[12] = "kits/f5.wav";
+
+
+//#include "AudioSampleG1.h"
+//#include "AudioSampleG2.h"
+//#include "AudioSampleG3.h"
+//#include "AudioSampleG4.h"
+//#include "AudioSampleG5.h"
+
+const char AudioSampleG1[12] = "kits/g1.wav";
+const char AudioSampleG2[12] = "kits/g2.wav";
+const char AudioSampleG3[12] = "kits/g3.wav";
+const char AudioSampleG4[12] = "kits/g4.wav";
+const char AudioSampleG5[12] = "kits/g5.wav";
+
+//#include "AudioSampleH1.h"
+//#include "AudioSampleH2.h"
+//#include "AudioSampleH3.h"
+//#include "AudioSampleH4.h"
+//#include "AudioSampleH5.h"
+
+const char AudioSampleH1[12] = "kits/h1.wav";
+const char AudioSampleH2[12] = "kits/h2.wav";
+const char AudioSampleH3[12] = "kits/h3.wav";
+const char AudioSampleH4[12] = "kits/h4.wav";
+const char AudioSampleH5[12] = "kits/h5.wav";
+
 // =====================================================================================================================================================================================
 // Teensy Library inclusions
 
-
+#include <PeakDetection.h>
+#include <Bounce.h>
+#include <Audio.h>
+#include <Wire.h>
+#include <SPI.h>
+#include <SD.h>
+#include <SerialFlash.h>
+#include <elapsedMillis.h>
 
 // GUItool: begin automatically generated code
-AudioPlayMemory          playMem15;      //xy=117.00568389892578,651
-AudioPlayMemory          playMem10;      //xy=118.00568389892578,461
-AudioPlayMemory          playMem11;      //xy=118.00568389892578,683
-AudioPlayMemory          playMem6;       //xy=119.00568389892578,493
-AudioPlayMemory          playMem14;      //xy=119.00568389892578,583
-AudioPlayMemory          playMem20;      //xy=118.00568389892578,840
-AudioPlayMemory          playMem13;      //xy=119.00568389892578,617
-AudioPlayMemory          playMem8;       //xy=120.00568389892578,427
-AudioPlayMemory          playMem12;      //xy=119.00568389892578,720
-AudioPlayMemory          playMem7;       //xy=120.00568389892578,530
-AudioPlayMemory          playMem25;      //xy=118.00568389892578,1032
-AudioPlayMemory          playMem16;      //xy=119.00568389892578,872
-AudioPlayMemory          playMem9;       //xy=121.00568389892578,393
-AudioPlayMemory          playMem18;      //xy=120.00568389892578,806
-AudioPlayMemory          playMem21;      //xy=119.00568389892578,1065
-AudioPlayMemory          playMem17;      //xy=120.00568389892578,909
-AudioPlayMemory          playMem23;      //xy=120.00568389892578,998
-AudioPlayMemory          playMem19;      //xy=121.00568389892578,772
-AudioPlayMemory          playMem22;      //xy=120.00568389892578,1101
-AudioPlayMemory          playMem24;      //xy=121.00568389892578,964
-AudioPlayMemory          playMem3;       //xy=125.00568389892578,270
-AudioPlayMemory          playMem4;       //xy=126.00568389892578,302
-AudioPlayMemory          playMem5;       //xy=126.00568389892578,339
-AudioPlayMemory          playMem1;       //xy=127.00568389892578,202
-AudioPlayMemory          playMem2;       //xy=127.00568389892578,236
-AudioMixer4              mixer5;         //xy=315.0056838989258,311
-AudioMixer4              mixer4;         //xy=317.0056838989258,240
-AudioMixer4              mixer7;         //xy=317.0056838989258,393
-AudioMixer4              mixer8;         //xy=317.0056838989258,476
-AudioMixer4              mixer2;         //xy=320.0056838989258,106
-AudioMixer4              mixer1;         //xy=321.0056838989258,35
-AudioMixer4              samplesdry;     //xy=452.0056838989258,55
-AudioMixer4              samples_delay;  //xy=472.00567626953125,266
-AudioMixer4              samplesverb;    //xy=474.0056838989258,467
-AudioEffectDelay         delay1;         //xy=594.0056762695312,266
-AudioEffectFreeverb      freeverb1;      //xy=636.0056838989258,467
-AudioMixer4              mixerdelay;     //xy=727.0056762695312,241
-AudioMixer4              mixersum;       //xy=872.0056762695312,248
-AudioOutputI2S           i2s1;           //xy=1023.0056762695312,241
-AudioInputI2S            i2s2;         //xy=611.4285697937012,685.7142753601074
-AudioPlaySdRaw           playRaw1;     //xy=674.2856979370117,589.9999809265137
-AudioAnalyzePeak         peak1;          //xy=774.2857627868652,702.8570785522461
-AudioRecordQueue         queue1;         //xy=778.5714836120605,659.9999809265137
-AudioConnection          patchCord1(playMem3, 0, mixer4, 2);
-AudioConnection          patchCord2(playMem3, 0, mixer7, 2);
-AudioConnection          patchCord3(playMem3, 0, mixer1, 2);
-AudioConnection          patchCord4(playMem4, 0, mixer4, 3);
-AudioConnection          patchCord5(playMem4, 0, mixer7, 3);
-AudioConnection          patchCord6(playMem4, 0, mixer1, 3);
-AudioConnection          patchCord7(playMem5, 0, mixer2, 0);
-AudioConnection          patchCord8(playMem5, 0, mixer5, 0);
-AudioConnection          patchCord9(playMem5, 0, mixer8, 0);
-AudioConnection          patchCord10(playMem1, 0, mixer1, 0);
-AudioConnection          patchCord11(playMem1, 0, mixer4, 0);
-AudioConnection          patchCord12(playMem1, 0, mixer7, 0);
-AudioConnection          patchCord13(playMem2, 0, mixer1, 1);
-AudioConnection          patchCord14(playMem2, 0, mixer4, 1);
-AudioConnection          patchCord15(playMem2, 0, mixer7, 1);
-AudioConnection          patchCord16(mixer5, 0, samples_delay, 1);
-AudioConnection          patchCord17(mixer4, 0, samples_delay, 0);
-AudioConnection          patchCord18(mixer7, 0, samplesverb, 0);
-AudioConnection          patchCord19(mixer8, 0, samplesverb, 1);
-AudioConnection          patchCord20(mixer2, 0, samplesdry, 1);
-AudioConnection          patchCord21(mixer1, 0, samplesdry, 0);
-AudioConnection          patchCord22(samplesdry, 0, mixersum, 0);
-AudioConnection          patchCord23(samples_delay, delay1);
-AudioConnection          patchCord24(samplesverb, freeverb1);
-AudioConnection          patchCord25(delay1, 0, mixerdelay, 0);
-AudioConnection          patchCord26(delay1, 1, mixerdelay, 1);
-AudioConnection          patchCord27(delay1, 2, mixerdelay, 2);
-AudioConnection          patchCord28(delay1, 3, mixerdelay, 3);
-AudioConnection          patchCord29(i2s2, 0, queue1, 0);
-AudioConnection          patchCord30(i2s2, 0, peak1, 0);
-AudioConnection          patchCord33(freeverb1, 0, mixersum, 2);
-AudioConnection          patchCord34(mixerdelay, 0, mixersum, 1);
-AudioConnection          patchCord35(playRaw1, 0, mixersum, 3);
-AudioConnection          patchCord31(mixersum, 0, i2s1, 0);
-AudioConnection          patchCord32(mixersum, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;     //xy=384.0056838989258,860
+AudioPlaySdWav           playSdWav4;     //xy=147.7777328491211,305.55554580688477
+AudioPlaySdWav           playSdWav3;     //xy=148.88886642456055,251.111083984375
+AudioPlaySdWav           playSdWav5;     //xy=149.99999237060547,392.2221984863281
+AudioPlaySdWav           playSdWav1;     //xy=161.11107635498047,101.11111068725586
+AudioPlaySdWav           playSdWav2;     //xy=161.11109924316406,183.33330917358398
+AudioPlaySdRaw           playRaw1;       //xy=162,466
+AudioPlaySdRaw           playRaw2;       //xy=163,528
+AudioPlaySdRaw           playRaw3;       //xy=163,594
+AudioPlaySdRaw           playRaw4;       //xy=166,660
+AudioPlaySdRaw           playRaw5;       //xy=168,717
+AudioMixer4              mixer5;         //xy=419,403
+AudioMixer4              mixer4;         //xy=421,332
+AudioMixer4              mixer6;         //xy=421,470
+AudioMixer4              mixer3;         //xy=423,267
+AudioMixer4              mixer2;         //xy=424,198
+AudioMixer4              mixer1;         //xy=425,127
+AudioMixer4              mixer7;         //xy=424.11105728149414,541.9999694824219
+AudioMixer4              mixer8;         //xy=433,625
+AudioMixer4              mixer9;         //xy=433,701
+AudioInputI2S            i2s2;           //xy=435,814
+AudioMixer4              samplesdry;     //xy=574,147
+AudioMixer4              samples_delay;  //xy=583,356
+AudioMixer4              samplesverb;    //xy=590,616
+AudioAnalyzePeak         peak1;          //xy=598,831
+AudioRecordQueue         queue1;         //xy=602,788
+AudioEffectDelay         delay1;         //xy=730,356
+AudioEffectFreeverb      freeverb1;      //xy=752,616
+AudioMixer4              mixerdelay;     //xy=863,331
+AudioMixer4              mixersum;       //xy=1172,338
+AudioOutputI2S           i2s1;           //xy=1323,331
+AudioConnection          patchCord1(playSdWav4, 0, mixer1, 3);
+AudioConnection          patchCord2(playSdWav4, 0, mixer4, 3);
+AudioConnection          patchCord3(playSdWav4, 0, mixer7, 3);
+AudioConnection          patchCord4(playSdWav3, 0, mixer1, 2);
+AudioConnection          patchCord5(playSdWav3, 0, mixer4, 2);
+AudioConnection          patchCord6(playSdWav3, 0, mixer7, 2);
+AudioConnection          patchCord7(playSdWav5, 0, mixer2, 0);
+AudioConnection          patchCord8(playSdWav5, 0, mixer5, 0);
+AudioConnection          patchCord9(playSdWav5, 0, mixer8, 0);
+AudioConnection          patchCord10(playSdWav1, 0, mixer1, 0);
+AudioConnection          patchCord11(playSdWav1, 0, mixer4, 0);
+AudioConnection          patchCord12(playSdWav1, 0, mixer7, 0);
+AudioConnection          patchCord13(playSdWav2, 0, mixer1, 1);
+AudioConnection          patchCord14(playSdWav2, 0, mixer4, 1);
+AudioConnection          patchCord15(playSdWav2, 0, mixer7, 1);
+AudioConnection          patchCord16(playRaw1, 0, mixer2, 1);
+AudioConnection          patchCord17(playRaw1, 0, mixer5, 1);
+AudioConnection          patchCord18(playRaw1, 0, mixer8, 1);
+AudioConnection          patchCord19(playRaw2, 0, mixer2, 2);
+AudioConnection          patchCord20(playRaw2, 0, mixer5, 2);
+AudioConnection          patchCord21(playRaw2, 0, mixer8, 2);
+AudioConnection          patchCord22(playRaw3, 0, mixer2, 3);
+AudioConnection          patchCord23(playRaw3, 0, mixer5, 3);
+AudioConnection          patchCord24(playRaw3, 0, mixer8, 3);
+AudioConnection          patchCord25(playRaw4, 0, mixer3, 0);
+AudioConnection          patchCord26(playRaw4, 0, mixer6, 0);
+AudioConnection          patchCord27(playRaw4, 0, mixer9, 0);
+AudioConnection          patchCord28(playRaw5, 0, mixer3, 1);
+AudioConnection          patchCord29(playRaw5, 0, mixer6, 1);
+AudioConnection          patchCord30(playRaw5, 0, mixer9, 1);
+AudioConnection          patchCord31(mixer5, 0, samples_delay, 1);
+AudioConnection          patchCord32(mixer4, 0, samples_delay, 0);
+AudioConnection          patchCord33(mixer6, 0, samples_delay, 2);
+AudioConnection          patchCord34(mixer3, 0, samplesdry, 2);
+AudioConnection          patchCord35(mixer2, 0, samplesdry, 1);
+AudioConnection          patchCord36(mixer1, 0, samplesdry, 0);
+AudioConnection          patchCord37(mixer7, 0, samplesverb, 0);
+AudioConnection          patchCord38(mixer8, 0, samplesverb, 1);
+AudioConnection          patchCord39(mixer9, 0, samplesverb, 2);
+AudioConnection          patchCord40(i2s2, 0, queue1, 0);
+AudioConnection          patchCord41(i2s2, 0, peak1, 0);
+AudioConnection          patchCord42(samplesdry, 0, mixersum, 0);
+AudioConnection          patchCord43(samples_delay, delay1);
+AudioConnection          patchCord44(samplesverb, freeverb1);
+AudioConnection          patchCord45(delay1, 0, mixerdelay, 0);
+AudioConnection          patchCord46(delay1, 1, mixerdelay, 1);
+AudioConnection          patchCord47(delay1, 2, mixerdelay, 2);
+AudioConnection          patchCord48(delay1, 3, mixerdelay, 3);
+AudioConnection          patchCord49(freeverb1, 0, mixersum, 2);
+AudioConnection          patchCord50(mixerdelay, 0, mixersum, 1);
+AudioConnection          patchCord51(mixersum, 0, i2s1, 0);
+AudioConnection          patchCord52(mixersum, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=439,884
+// GUItool: end automatically generated code
+
+
 
 // Bounce 5 sample buttons.
 Bounce button0 = Bounce(0, 15);
@@ -288,6 +346,7 @@ Bounce button1 = Bounce(1, 15);  // 15 ms debounce time
 Bounce button2 = Bounce(2, 15);
 Bounce button3 = Bounce(3, 15);
 Bounce button4 = Bounce(4, 15);
+
 
 
 char* getFileNameFromIndex(int index) {
@@ -311,8 +370,8 @@ char* getFileNameFromIndex(int index) {
 class Recorder {
   public:
     // The file where data is recorded
-    PeakDetection peakDetection; // create PeakDetection object
-    
+    PeakDetection *peakDetection = new PeakDetection(); // create PeakDetection object
+
     File frec;
     int mode; // 0=stopped, 1=recording, 2=assigning, 3=playing
     bool detectedPeak;
@@ -331,52 +390,77 @@ class Recorder {
       this->mode = 0;
       this->detectedPeak = false;
       this->startedRecording = false;
-      this->recordsIndex = 0;
+      
+      this->preRecordingDelayMillis = 0;
+      this->recordingMillis = 0;
       this->peakDetectionMillis = 0;
+      this->recordsIndex = 0;
 
       this->peakSamplingInterval = 30;
       this->preRecordingDelay = 400;
-      this->recordingMaxTime = 2000;
+      this->recordingMaxTime = 1000;
     }
 
     void startRecording() {
-      Serial.print("startRecording file ");
-      Serial.println(this->recordsIndex+1);
-      this->recordingMillis = 0;
-      this->preRecordingDelayMillis = 0;
-      if (SD.exists(getFileNameFromIndex(this->recordsIndex))) {
-        // The SD library writes new data to the end of the
-        // file, so to start a new recording, the old file
-        // must be deleted before new data is written.
-        SD.remove(getFileNameFromIndex(this->recordsIndex));
+//      Serial.println("@@@@ 0");
+      digitalWrite(ledPin, LOW);
+      delay(1000);
+//      stopPlayingRecording();/
+//
+//      Serial.print("startRecording file ");
+//      Serial.println(this->recordsIndex + 1);
+
+      char* fileName = getFileNameFromIndex(this->recordsIndex);
+
+      //Serial.println("@@@@ 0.1");
+
+      if (SD.exists(fileName)) {
+        //Serial.println("@@@@ 0.2");
+        SD.remove(fileName);
       }
-      this->frec = SD.open(getFileNameFromIndex(this->recordsIndex), FILE_WRITE);
+      delay(10);
+      //Serial.println("@@@@ 0.3");
+      this->frec = SD.open(fileName, FILE_WRITE);
+      //Serial.println("@@@@ 0.4");
       if (this->frec) {
-    //    queue1.begin();
+        //    queue1.begin();
         this->mode = 1;
+        //Serial.println("@@@@ 0.5");
+      } else {
+        
       }
+
+      this->preRecordingDelayMillis = 0;
+      this->recordingMillis = 0;
     }
 
     void continueRecording() {
-//      Serial.print(this->preRecordingDelayMillis);
-//      Serial.print(", ");
-//      Serial.print(this->recordingMillis);
-//      Serial.print(", ");
-//      Serial.println(this->detectedPeak);
-      if (!this->startedRecording) this->checkForPeak();
+      //      Serial.print(this->preRecordingDelayMillis);
+      //      Serial.print(", ");
+      //      Serial.print(this->recordingMillis);
+      //      Serial.print(", ");
+      //      Serial.println(this->detectedPeak); 
       if (this->preRecordingDelayMillis < this->preRecordingDelay) {
+        //Serial.println("@@@@ 1.1");
+        this->gatherAudioDataForPeak();
         this->recordingMillis = 0;
         return;
       }
+      if (!this->startedRecording) this->checkForPeak();
       if (this->detectedPeak == false) {
+        //Serial.println("@@@@ 1.2");
+        digitalWrite(ledRecord, ((millis() % 600) > 300));
         this->recordingMillis = 0;
         return;
       }
       if (!this->startedRecording) {
+        //Serial.println("@@@@ 1.3");
         this->startedRecording = true;
-        Serial.println("NOW RECORDING FR");
+        //Serial.println("NOW RECORDING FR");
         queue1.begin();
       }
+      //Serial.println("@@@@ 1.4");
+      digitalWrite(ledRecord, HIGH);
       if (queue1.available() >= 2) {
         byte buffer[512];
         // Fetch 2 blocks from the audio library and copy
@@ -385,7 +469,7 @@ class Recorder {
         // writes are used.
         memcpy(buffer, queue1.readBuffer(), 256);
         queue1.freeBuffer();
-        memcpy(buffer+256, queue1.readBuffer(), 256);
+        memcpy(buffer + 256, queue1.readBuffer(), 256);
         queue1.freeBuffer();
         // write all 512 bytes to the SD card
         //elapsedMicros usec = 0;
@@ -404,60 +488,76 @@ class Recorder {
         //Serial.println(usec);
       }
       if (this->recordingMillis > this->recordingMaxTime) {
+        //Serial.println("@@@@ 1.5");
         this->stopRecording();
       }
     }
 
     void stopRecording() {
-      Serial.println("stopRecording");
+      //Serial.println("@@@@ 2");
+      //Serial.println("stopRecording");
+      digitalWrite(ledRecord, LOW);
       queue1.end();
-      if (this->mode == 1) {
-        while (queue1.available() > 0) {
-          this->frec.write((byte*)queue1.readBuffer(), 256);
-          queue1.freeBuffer();
-        }
-        this->frec.close();
+      //Serial.println("@@@@ 2.1");
+      while (queue1.available() > 0) {
+        //Serial.println("@@@@ 2.2");
+        this->frec.write((byte*)queue1.readBuffer(), 256);
+        queue1.freeBuffer();
       }
+      //Serial.println("@@@@ 2.3");
+      this->frec.close();
+      //Serial.println("@@@@ 2.4");      
       this->mode = 2;
-      if (this->recordsIndex > 4) this->recordsIndex = 0;
       this->detectedPeak = false;
       this->startedRecording = false;
+      delete this->peakDetection;
+      this->peakDetection = new PeakDetection(); // create PeakDetection object
+      this->peakDetection->begin(24, 4, 0.9); //lag, threshold, influence
     }
 
     void checkForPeak() {
       if (peak1.available() && this->peakDetectionMillis > this->peakSamplingInterval) {
         this->peakDetectionMillis = 0;
         float number = peak1.read();
-        this->peakDetection.add(number);
-        double peakD = this->peakDetection.getPeak();
+        this->peakDetection->add(number);
+        double peakD = this->peakDetection->getPeak();
         if (this->preRecordingDelayMillis > this->preRecordingDelay && !this->detectedPeak && peakD == 1.00) {
-          Serial.println("PEAK!!");
+          //Serial.println("PEAK!!");
           this->detectedPeak = true;
         }
-        this->printBars(number, peakD);
+        //        this->printBars(number, peakD);
       }
     }
 
-    void printBars(float number, double peakD) {
-      int peak = number * 30.0;
-      int count;
-      for (count=0; count < 30-peak; count++) {
-        Serial.print(" ");
+    void gatherAudioDataForPeak() {
+      if (peak1.available() && this->peakDetectionMillis > this->peakSamplingInterval) {
+        this->peakDetectionMillis = 0;
+        float number = peak1.read();
+        this->peakDetection->add(number);
       }
-      while (count++ < 30) {
-        Serial.print("<");
-      }
-      Serial.print("||");
-      for (count=0; count < peak; count++) {
-        Serial.print(">");
-      }
-      while (count++ < 30) {
-        Serial.print(" ");
-      }
-      Serial.print(number);
-      Serial.print(", ");
-      Serial.println(peakD);
     }
+
+
+    //    void printBars(float number, double peakD) {
+    //      int peak = number * 30.0;
+    //      int count;
+    //      for (count=0; count < 30-peak; count++) {
+    //        Serial.print(" ");
+    //      }
+    //      while (count++ < 30) {
+    //        Serial.print("<");
+    //      }
+    //      Serial.print("||");
+    //      for (count=0; count < peak; count++) {
+    //        Serial.print(">");
+    //      }
+    //      while (count++ < 30) {
+    //        Serial.print(" ");
+    //      }
+    //      Serial.print(number);
+    //      Serial.print(", ");
+    //      Serial.println(peakD);
+    //    }
 };
 
 
@@ -465,15 +565,15 @@ class Recorder {
 //const int myInput = AUDIO_INPUT_LINEIN;
 const int myInput = AUDIO_INPUT_MIC;
 
-// Use these with the Teensy Audio Shield
-#define SDCARD_CS_PIN    10
-#define SDCARD_MOSI_PIN  7
-#define SDCARD_SCK_PIN   14
+//// Use these with the Teensy Audio Shield
+//#define SDCARD_CS_PIN    10
+//#define SDCARD_MOSI_PIN  7
+//#define SDCARD_SCK_PIN   14
 
 // Use these with the Teensy 3.5 & 3.6 SD card
-//#define SDCARD_CS_PIN    BUILTIN_SDCARD
-//#define SDCARD_MOSI_PIN  11  // not actually used
-//#define SDCARD_SCK_PIN   13  // not actually used
+#define SDCARD_CS_PIN    BUILTIN_SDCARD
+#define SDCARD_MOSI_PIN  11  // not actually used
+#define SDCARD_SCK_PIN   13  // not actually used
 
 // Use these for the SD+Wiz820 or other adaptors
 //#define SDCARD_CS_PIN    4
@@ -484,10 +584,58 @@ Recorder recorder = Recorder();
 bool isPlaying = true;
 
 int assignedSamples[5] = { -1, -1, -1, -1, -1 };
+bool channelsSampleMode[5] = { false, false, false, false, false };
+AudioPlaySdRaw rawPlayers[5] = { playRaw1, playRaw2, playRaw3, playRaw4, playRaw5 };
+
+void startPlayingRecording1() {
+  if (playRaw1.isPlaying()) playRaw1.stop();
+  //Serial.print("startPlaying file ");
+  int fileIndex = assignedSamples[0];
+  //Serial.println(fileIndex);
+  playRaw1.play(getFileNameFromIndex(fileIndex));
+  recorder.mode = 3;
+}
+
+void startPlayingRecording2() {
+  if (playRaw2.isPlaying()) playRaw2.stop();
+  //Serial.print("startPlaying file ");
+  int fileIndex = assignedSamples[1];
+  //Serial.println(fileIndex);
+  playRaw2.play(getFileNameFromIndex(fileIndex));
+  recorder.mode = 3;
+}
+
+void startPlayingRecording3() {
+  if (playRaw3.isPlaying()) playRaw3.stop();
+  //Serial.print("startPlaying file ");
+  int fileIndex = assignedSamples[2];
+  //Serial.println(fileIndex);
+  playRaw3.play(getFileNameFromIndex(fileIndex));
+  recorder.mode = 3;
+}
+
+void startPlayingRecording4() {
+  if (playRaw4.isPlaying()) playRaw4.stop();
+  //Serial.print("startPlaying file ");
+  int fileIndex = assignedSamples[3];
+  //Serial.println(fileIndex);
+  playRaw4.play(getFileNameFromIndex(fileIndex));
+  recorder.mode = 3;
+}
+
+void startPlayingRecording5() {
+  if (playRaw5.isPlaying()) playRaw5.stop();
+  //Serial.print("startPlaying file ");
+  int fileIndex = assignedSamples[4];
+  //Serial.println(fileIndex);
+  playRaw5.play(getFileNameFromIndex(fileIndex));
+  recorder.mode = 3;
+}
+
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 void setup() {
-  Serial.begin (9600);
+  Serial.begin(9600);
   //Latches
   pinMode(buttonPin, INPUT);
   pinMode(ledPin, OUTPUT);
@@ -511,8 +659,8 @@ void setup() {
   pinMode(ledSample3, OUTPUT);
   pinMode(samplePin4, INPUT);
   pinMode(ledSample4, OUTPUT);
-  pinMode(samplePin5, INPUT);
-  pinMode(ledSample5, OUTPUT);
+  //  pinMode(samplePin5, INPUT);
+  //  pinMode(ledSample5, OUTPUT);
 
   //Samples
   pinMode(0, INPUT_PULLUP); //sample buttons
@@ -522,34 +670,52 @@ void setup() {
   pinMode(4, INPUT_PULLUP);
 
   // teensy audio gui tool parameters
-  AudioMemory(1024);
+  AudioMemory(512);
   sgtl5000_1.enable();
   sgtl5000_1.volume(1);
   sgtl5000_1.inputSelect(myInput);
   sgtl5000_1.lineInLevel(0);
   sgtl5000_1.micGain(32);
-  recorder.peakDetection.begin(24, 4, 0.9); //lag, threshold, influence
+  recorder.peakDetection->begin(24, 4, 0.9); //lag, threshold, influence
   mixer1.gain(0, 0.4);
   mixer1.gain(1, 0.4);
   mixer1.gain(2, 0.4);
   mixer1.gain(3, 0.4);
   mixer2.gain(0, 0.4);
+  mixer2.gain(1, 0.4);
+  mixer2.gain(2, 0.4);
+  mixer2.gain(3, 0.4);
+  mixer3.gain(0, 0.4);
+  mixer3.gain(1, 0.4);
   samplesdry.gain(0, 0.4);
   samplesdry.gain(1, 0.4);
+  samplesdry.gain(2, 0.4);
   mixer4.gain(0, 0.4);
   mixer4.gain(1, 0.4);
   mixer4.gain(2, 0.4);
   mixer4.gain(3, 0.4);
   mixer5.gain(0, 0.4);
+  mixer5.gain(1, 0.4);
+  mixer5.gain(2, 0.4);
+  mixer5.gain(3, 0.4);
+  mixer6.gain(0, 0.4);
+  mixer6.gain(1, 0.4);
   samples_delay.gain(0, 0.4);
   samples_delay.gain(1, 0.4);
+  samples_delay.gain(2, 0.4);
   mixer7.gain(0, 0.4);
   mixer7.gain(1, 0.4);
   mixer7.gain(2, 0.4);
   mixer7.gain(3, 0.4);
   mixer8.gain(0, 0.4);
+  mixer8.gain(1, 0.4);
+  mixer8.gain(2, 0.4);
+  mixer8.gain(3, 0.4);
+  mixer9.gain(0, 0.4);
+  mixer9.gain(1, 0.4);
   samplesverb.gain(0, 0.4);
   samplesverb.gain(1, 0.4);
+  samplesverb.gain(2, 0.4);
   mixerdelay.gain(0, 0.4);
   mixerdelay.gain(1, 0.3);
   mixerdelay.gain(2, 0.2);
@@ -566,7 +732,7 @@ void setup() {
   // delay1.disable(2);
   freeverb1.roomsize(1);
 
-    
+
   // Initialize the SD card
   SPI.setMOSI(SDCARD_MOSI_PIN);
   SPI.setSCK(SDCARD_SCK_PIN);
@@ -577,6 +743,7 @@ void setup() {
       delay(500);
     }
   }
+
 }
 
 void loop() {
@@ -584,47 +751,28 @@ void loop() {
   //  float effectPot = (A9);
 
   buttonState = digitalRead(buttonPin);
-  // compare the buttonState to its previous state
   if (buttonState != lastButtonState) {
-    // if the state has changed, increment the counter
     if (buttonState == HIGH) {
       buttonPushCounter++;
-      //       Serial.println("on");
-      //      Serial.println(buttonPushCounter);
-      //     } else {
-      //       Serial.println("off");
     }
-    delay(50);
   }
   lastButtonState = buttonState;
 
-
-  if (buttonPushCounter % 2 == 0) {
+  if (buttonPushCounter % 2 == 0 && recorder.mode != 1 && recorder.mode != 2) {
     digitalWrite(ledPin, HIGH);
-    isPlaying = true;
   } else {
     digitalWrite(ledPin, LOW);
-    isPlaying = false;
   }
-
-
 
   buttonState1 = digitalRead(mutePin1);
 
-  // compare the buttonState to its previous state
+
   if (buttonState1 != lastButtonState1) {
-    // if the state has changed, increment the counter
     if (buttonState1 == HIGH) {
       buttonPushCounter1++;
-      //      Serial.println("on");
-      //      Serial.println(buttonPushCounter1);
-      //    } else {
-      //     Serial.println("off");
     }
-    delay(50);
   }
   lastButtonState1 = buttonState1;
-
 
   if (buttonPushCounter1 % 2 == 0) {
     digitalWrite(ledMute1, HIGH);
@@ -633,20 +781,13 @@ void loop() {
   }
 
 
-
-  // read the pushbutton input pin:
   buttonState2 = digitalRead(mutePin2);
 
   // compare the buttonState to its previous state
   if (buttonState2 != lastButtonState2) {
     if (buttonState2 == HIGH) {
       buttonPushCounter2++;
-      //      Serial.println("on");
-      //      Serial.println(buttonPushCounter2);
-      //    } else {
-      //       Serial.println("off");
     }
-    delay(50);
   }
   lastButtonState2 = buttonState2;
 
@@ -667,12 +808,7 @@ void loop() {
   if (buttonState3 != lastButtonState3) {
     if (buttonState3 == HIGH) {
       buttonPushCounter3++;
-      //      Serial.println("on");
-      //      Serial.println(buttonPushCounter3);
-      //    } else {
-      //      Serial.println("off");
     }
-    delay(50);
   }
   lastButtonState3 = buttonState3;
 
@@ -692,12 +828,7 @@ void loop() {
   if (buttonState4 != lastButtonState4) {
     if (buttonState4 == HIGH) {
       buttonPushCounter4++;
-      //      Serial.println("on");
-      //      Serial.println(buttonPushCounter4);
-      //    } else {
-      //      Serial.println("off");
     }
-    delay(50);
   }
   lastButtonState4 = buttonState4;
 
@@ -717,12 +848,7 @@ void loop() {
   if (buttonState5 != lastButtonState5) {
     if (buttonState5 == HIGH) {
       buttonPushCounter5++;
-      //     Serial.println("on");
-      //     Serial.println(buttonPushCounter5);
-      //   } else {
-      //    Serial.println("off");
     }
-    delay(50);
   }
   lastButtonState5 = buttonState5;
 
@@ -739,125 +865,132 @@ void loop() {
   if (buttonState6 != lastButtonState6) {
     if (buttonState6 == HIGH) {
       buttonPushCounter6++;
-      Serial.println(">>> Record Button Press");
-      Serial.print("mode ");
-      Serial.println(recorder.mode);
-      if (recorder.mode == 3) stopPlayingRecording();
+      //Serial.println(">>> Record Button Press");
+      //Serial.print("mode ");
+      //Serial.println(recorder.mode);
+      //      if (recorder.mode == 3) stopPlayingRecording();
       if (recorder.mode == 0) recorder.startRecording();
     }
   }
   lastButtonState6 = buttonState6;
 
-  if (buttonPushCounter6 % 2 == 0) {
-    digitalWrite(ledRecord, HIGH);
-    } else {
-    digitalWrite(ledRecord, LOW);
-  }
 
-  
-   // read the pushbutton input pin:
+  // read the pushbutton input pin:
   buttonState7 = digitalRead(samplePin1);
+  //  Serial.println(buttonState7);
 
   // compare the buttonState to its previous state
   if (buttonState7 != lastButtonState7) {
-    if (buttonState7 == LOW) {
+    if (buttonState7 == HIGH) {
       buttonPushCounter7++;
-      Serial.println(">>> Play channel 1");
-      if (recorder.mode == 1) recorder.stopRecording();
-      if (recorder.mode == 0 || recorder.mode == 3) startPlayingRecording(0);
-      else if (recorder.mode == 2) assignSampleToChannel(recorder.recordsIndex, 0);
+      //Serial.println(">>> Sample channel 1");
+      //      if (recorder.mode == 1) recorder.stopRecording();
+      if (recorder.mode == 0 || recorder.mode == 3) toggleChannelSampleMode(2); // startPlayingRecording(0);
+      else if (recorder.mode == 2) assignSampleToChannel(recorder.recordsIndex, 2);
     }
   }
   lastButtonState7 = buttonState7;
 
-  if (buttonPushCounter7 % 2 == 0) {
+  if (recorder.mode == 2) {
+    digitalWrite(ledSample1, ((millis() % 1000) > 500));
+  } else if (channelsSampleMode[2]) {
     digitalWrite(ledSample1, HIGH);
-    } else {
+  } else {
     digitalWrite(ledSample1, LOW);
   }
 
-     // read the pushbutton input pin:
+
+  // read the pushbutton input pin:
   buttonState8 = digitalRead(samplePin2);
+  //  Serial.println(buttonState8);
+
 
   // compare the buttonState to its previous state
   if (buttonState8 != lastButtonState8) {
-    if (buttonState8 == LOW) {
+    if (buttonState8 == HIGH) {
       buttonPushCounter8++;
-      Serial.println(">>> Play channel 2");
+      //Serial.println(">>> Sample channel 2");
       if (recorder.mode == 1) recorder.stopRecording();
-      if (recorder.mode == 0 || recorder.mode == 3) startPlayingRecording(1);
-      else if (recorder.mode == 2) assignSampleToChannel(recorder.recordsIndex, 1);
+      if (recorder.mode == 0 || recorder.mode == 3) toggleChannelSampleMode(3); //startPlayingRecording(1);
+      else if (recorder.mode == 2) assignSampleToChannel(recorder.recordsIndex, 3);
     }
   }
   lastButtonState8 = buttonState8;
 
-  if (buttonPushCounter8 % 2 == 0) {
+  if (recorder.mode == 2) {
+    digitalWrite(ledSample2, ((millis() % 1000) > 500));
+  } else if (channelsSampleMode[3]) {
     digitalWrite(ledSample2, HIGH);
-    } else {
+  } else {
     digitalWrite(ledSample2, LOW);
   }
-  
-  
+
+
   // read the pushbutton input pin:
   buttonState9 = digitalRead(samplePin3);
 
   // compare the buttonState to its previous state
   if (buttonState9 != lastButtonState9) {
-    if (buttonState9 == LOW) {
+    if (buttonState9 == HIGH) {
       buttonPushCounter9++;
-      Serial.println(">>> Play channel 3");
+      //Serial.println(">>> Sample channel 3");
       if (recorder.mode == 1) recorder.stopRecording();
-      if (recorder.mode == 0 || recorder.mode == 3) startPlayingRecording(2);
-      else if (recorder.mode == 2) assignSampleToChannel(recorder.recordsIndex, 2);
+      if (recorder.mode == 0 || recorder.mode == 3) toggleChannelSampleMode(4); //startPlayingRecording(2);
+      else if (recorder.mode == 2) assignSampleToChannel(recorder.recordsIndex, 4);
     }
   }
   lastButtonState9 = buttonState9;
 
-  if (buttonPushCounter9 % 2 == 0) {
+  if (recorder.mode == 2) {
+    digitalWrite(ledSample3, ((millis() % 1000) > 500));
+  } else if (channelsSampleMode[4]) {
     digitalWrite(ledSample3, HIGH);
-    } else {
+  } else {
     digitalWrite(ledSample3, LOW);
   }
 
-    // read the pushbutton input pin:
+  // read the pushbutton input pin:
   buttonState10 = digitalRead(samplePin4);
 
   // compare the buttonState to its previous state
   if (buttonState10 != lastButtonState10) {
-    if (buttonState10 == LOW) {
+    if (buttonState10 == HIGH) {
       buttonPushCounter10++;
-      Serial.println(">>> Play channel 4");
+      //Serial.println(">>> Sample channel 4");
       if (recorder.mode == 1) recorder.stopRecording();
-      if (recorder.mode == 0 || recorder.mode == 3) startPlayingRecording(3);
-      else if (recorder.mode == 2) assignSampleToChannel(recorder.recordsIndex, 3);
+      if (recorder.mode == 0 || recorder.mode == 3) toggleChannelSampleMode(0); //startPlayingRecording(3);
+      else if (recorder.mode == 2) assignSampleToChannel(recorder.recordsIndex, 0);
     }
   }
   lastButtonState10 = buttonState10;
 
-  if (buttonPushCounter10 % 2 == 0) {
+  if (recorder.mode == 2) {
+    digitalWrite(ledSample4, ((millis() % 1000) > 500));
+  } else if (channelsSampleMode[0]) {
     digitalWrite(ledSample4, HIGH);
-    } else {
+  } else {
     digitalWrite(ledSample4, LOW);
   }
-  
-  // read the pushbutton input pin:
-  buttonState11 = digitalRead(samplePin5);
 
-  // compare the buttonState to its previous state
-  if (buttonState11 != lastButtonState11) {
-    if (buttonState11 == HIGH) {
-      buttonPushCounter11++;
-      Serial.println("sample btn 5");
-    }
-  }
-  lastButtonState11 = buttonState11;
+  //  // read the pushbutton input pin:
+  //  buttonState11 = digitalRead(samplePin5);
+  //
+  //  // compare the buttonState to its previous state
+  //  if (buttonState11 != lastButtonState11) {
+  //    if (buttonState11 == HIGH) {
+  //      buttonPushCounter11++;
+  //      Serial.println("sample btn 5");
+  //    }
+  //  }
+  //  lastButtonState11 = buttonState11;
+  //
+  //  if (buttonPushCounter11 % 2 == 0) {
+  //    digitalWrite(ledSample5, HIGH);
+  //   } else {
+  //    digitalWrite(ledSample5, LOW);
+  //  }
 
-  if (buttonPushCounter11 % 2 == 0) {
-    digitalWrite(ledSample5, HIGH);
-   } else {
-    digitalWrite(ledSample5, LOW);
-  }
-  
+
 
   // Update all the button objects
   button0.update();
@@ -867,7 +1000,7 @@ void loop() {
   button4.update();
 
   // delay effect parameters
-  int delaytime = analogRead (A10) / 5;
+  int delaytime = map(analogRead(A10), 0, 1023, 1023, 0) / 5;
   delay1.delay(0, delaytime);
   delay1.delay(1, delaytime * 2);
   delay1.delay(2, delaytime * 3);
@@ -881,11 +1014,11 @@ void loop() {
   // reverb effect parameters
   freeverb1.roomsize(analogRead (A10) / 1024.0);
 
-  float wetDrypot1 = analogRead(A8);
-  float wetDrypot2 = analogRead(A0);
-  float wetDrypot3 = analogRead(A2);
-  float wetDrypot4 = analogRead(A1);
-  float wetDrypot5 = analogRead(A3);
+  float wetDrypot1 = map(analogRead(A8), 0 , 1023, 1023, 0);
+  float wetDrypot2 = map(analogRead(A0), 0 , 1023, 1023, 0);
+  float wetDrypot3 = map(analogRead(A2), 0 , 1023, 1023, 0);
+  float wetDrypot4 = map(analogRead(A1), 0 , 1023, 1023, 0);
+  float wetDrypot5 = map(analogRead(A3), 0 , 1023, 1023, 0);
 
 
 
@@ -896,11 +1029,23 @@ void loop() {
   mixer1.gain(3, buttonPushCounter3 % 2);
   mixer2.gain(0, buttonPushCounter5 % 2);
 
+  mixer2.gain(1, buttonPushCounter5 % 2);
+  mixer2.gain(2, buttonPushCounter4 % 2);
+  mixer2.gain(3, buttonPushCounter2 % 2);
+  mixer3.gain(0, buttonPushCounter1 % 2);
+  mixer3.gain(1, buttonPushCounter3 % 2);
+
   mixer4.gain(0, buttonPushCounter4 % 2);
   mixer4.gain(1, buttonPushCounter2 % 2);
   mixer4.gain(2, buttonPushCounter1 % 2);
   mixer4.gain(3, buttonPushCounter3 % 2);
   mixer5.gain(0, buttonPushCounter5 % 2);
+
+  mixer5.gain(1, buttonPushCounter5 % 2);
+  mixer5.gain(2, buttonPushCounter4 % 2);
+  mixer5.gain(3, buttonPushCounter2 % 2);
+  mixer6.gain(0, buttonPushCounter1 % 2);
+  mixer6.gain(1, buttonPushCounter3 % 2);
 
   mixer7.gain(0, buttonPushCounter4 % 2);
   mixer7.gain(1, buttonPushCounter2 % 2);
@@ -908,177 +1053,279 @@ void loop() {
   mixer7.gain(3, buttonPushCounter3 % 2);
   mixer8.gain(0, buttonPushCounter5 % 2);
 
+  mixer8.gain(1, buttonPushCounter5 % 2);
+  mixer8.gain(2, buttonPushCounter4 % 2);
+  mixer8.gain(3, buttonPushCounter2 % 2);
+  mixer9.gain(0, buttonPushCounter1 % 2);
+  mixer9.gain(1, buttonPushCounter3 % 2);
+
   //WETDRY DELAY
   mixer4.gain(0, (wetDrypot1 / 1024.0) * (buttonPushCounter4 % 2));
   mixer4.gain(1, (wetDrypot2 / 1024.0) * (buttonPushCounter2 % 2));
   mixer4.gain(2, (wetDrypot3 / 1024.0) * (buttonPushCounter1 % 2));
   mixer4.gain(3, (wetDrypot4 / 1024.0) * (buttonPushCounter3 % 2));
   mixer5.gain(0, (wetDrypot5 / 1024.0) * (buttonPushCounter5 % 2));
+
+  mixer5.gain(1, (wetDrypot1 / 1024.0) * (buttonPushCounter5 % 2));
+  mixer5.gain(2, (wetDrypot2 / 1024.0) * (buttonPushCounter4 % 2));
+  mixer5.gain(3, (wetDrypot3 / 1024.0) * (buttonPushCounter2 % 2));
+  mixer6.gain(0, (wetDrypot4 / 1024.0) * (buttonPushCounter1 % 2));
+  mixer6.gain(1, (wetDrypot5 / 1024.0) * (buttonPushCounter3 % 2));
+
   mixer7.gain(0, (wetDrypot1 / 1024.0) * (buttonPushCounter4 % 2));
   mixer7.gain(1, (wetDrypot2 / 1024.0) * (buttonPushCounter2 % 2));
   mixer7.gain(2, (wetDrypot3 / 1024.0) * (buttonPushCounter1 % 2));
   mixer7.gain(3, (wetDrypot4 / 1024.0) * (buttonPushCounter3 % 2));
   mixer8.gain(0, (wetDrypot5 / 1024.0) * (buttonPushCounter5 % 2));
 
-  // EFFECT SELECT
-  int effectSelect = analogRead(A13);
-  //Serial.println (analogRead(A13));
+  mixer8.gain(1, (wetDrypot1 / 1024.0) * (buttonPushCounter5 % 2));
+  mixer8.gain(2, (wetDrypot2 / 1024.0) * (buttonPushCounter4 % 2));
+  mixer8.gain(3, (wetDrypot3 / 1024.0) * (buttonPushCounter2 % 2));
+  mixer9.gain(0, (wetDrypot4 / 1024.0) * (buttonPushCounter1 % 2));
+  mixer9.gain(1, (wetDrypot5 / 1024.0) * (buttonPushCounter3 % 2));
+
+  //   SELECT
+  int effectSelect = 300; //analogRead(A13);
+  //  Serial.println(analogRead(A13));
+  
+
   if (effectSelect >= 0 and effectSelect <= 230) {
     mixersum.gain(0, 1);
     mixersum.gain(1, 0);
     mixersum.gain(2, 0);
-  }
-  else if (effectSelect >= 230 and effectSelect <= 350) {
+  } else if (effectSelect >= 230 and effectSelect <= 350) {
     mixersum.gain(0, 1);
     mixersum.gain(1, 1);
     mixersum.gain(2, 0);
-  }
-  else if (effectSelect >= 350 and effectSelect <= 600) {
+  } else if (effectSelect >= 350 and effectSelect <= 600) {
     mixersum.gain(0, 1);
     mixersum.gain(1, 0);
     mixersum.gain(2, 1);
-
   }
   // else if (effectSelect >= 500 and effectSelect <= 750)
   //     {  samples_crusher.gain(0, 0.4);
   //        samples_crusher.gain(1, 0.4);}
 
-  if (isPlaying) {   //play stop
+  //  Serial.println(analogRead(A12));
+
+  if (digitalRead(ledPin) == HIGH)     //play stop
+  {
+
 
     //change sample with kitSelect
+
     int kitSelect = analogRead(A12);
+    //    Serial.println(kitSelect);
 
     //  Serial.println(kitSelect);
     if (button0.fallingEdge()) {
-      if (kitSelect > 1000 and kitSelect < 1030) {
-        playMem5.play(AudioSampleA1);
+      if (channelsSampleMode[0] && assignedSamples[0] > -1) {
+        startPlayingRecording1();
       }
-      if (kitSelect > 450 and kitSelect < 610) {
-        playMem5.play(AudioSampleB1);
+      else if (kitSelect > 1000) {
+        playSdWav5.play(AudioSampleA1);
       }
-      if (kitSelect > 300 and kitSelect < 400) {
-        playMem5.play(AudioSampleC1);
+      else if (kitSelect > 450) {
+        playSdWav5.play(AudioSampleB1);
       }
-      if (kitSelect > 230 and kitSelect < 290) {
-        playMem5.play(AudioSampleD1);
+      else if (kitSelect > 300) {
+        playSdWav5.play(AudioSampleC1);
       }
-      if (kitSelect > 180 and kitSelect < 220) {
-        playMem5.play(AudioSampleE1);
+      else if (kitSelect > 230) {
+        playSdWav5.play(AudioSampleD1);
       }
-      if (kitSelect > 150 and kitSelect < 180) {
-        playMem5.play(AudioSampleF1);
+      else if (kitSelect > 180) {
+        playSdWav5.play(AudioSampleE1);
       }
-
+      else if (kitSelect > 150) {
+        playSdWav5.play(AudioSampleF1);
+      }
+      else if (kitSelect > 130) {
+        playSdWav5.play(AudioSampleG1);
+      }
+      else if (kitSelect < 130) {
+        playSdWav5.play(AudioSampleH1);
+      }
     }
 
     if (button1.fallingEdge())  {
-      if (kitSelect > 300 and kitSelect < 450) {
-        playMem1.play(AudioSampleA2);
+      if (channelsSampleMode[1] && assignedSamples[1] > -1) {
+        startPlayingRecording2();
       }
-      if (kitSelect > 450 and kitSelect < 610) {
-        playMem1.play(AudioSampleB2);
+      else if (kitSelect > 1000) {
+        playSdWav1.play(AudioSampleA2);
       }
-      if (kitSelect > 610 and kitSelect < 1000) {
-        playMem1.play(AudioSampleC2);
+      else if (kitSelect > 450) {
+        playSdWav1.play(AudioSampleB2);
       }
-      if (kitSelect > 1000) {
-        playMem1.play(AudioSampleD2);
+      else if (kitSelect > 300) {
+        playSdWav1.play(AudioSampleC2);
+      }
+      else if (kitSelect > 230) {
+        playSdWav1.play(AudioSampleD2);
+      }
+      else if (kitSelect > 180) {
+        playSdWav1.play(AudioSampleE2);
+      }
+      else if (kitSelect > 150) {
+        playSdWav1.play(AudioSampleF2);
+      }
+      else if (kitSelect > 130) {
+        playSdWav1.play(AudioSampleG2);
+      }
+      else if (kitSelect < 130) {
+        playSdWav1.play(AudioSampleH2);
       }
     }
 
 
     if (button2.fallingEdge())  {
-      if (kitSelect > 300 and kitSelect < 450) {
-        playMem2.play(AudioSampleA3);
+      if (channelsSampleMode[2] && assignedSamples[2] > -1) {
+        startPlayingRecording3();
       }
-      if (kitSelect > 450 and kitSelect < 610) {
-        playMem2.play(AudioSampleB3);
+      else if (kitSelect > 1000) {
+        playSdWav2.play(AudioSampleA3);
       }
-      if (kitSelect > 610 and kitSelect < 1000) {
-        playMem2.play(AudioSampleC3);
+      else if (kitSelect > 450) {
+        playSdWav2.play(AudioSampleB3);
       }
-      if (kitSelect > 1000) {
-        playMem2.play(AudioSampleD3);
+      else if (kitSelect > 300) {
+        playSdWav2.play(AudioSampleC3);
       }
-
+      else if (kitSelect > 230) {
+        playSdWav2.play(AudioSampleD3);
+      }
+      else if (kitSelect > 180) {
+        playSdWav2.play(AudioSampleE3);
+      }
+      else if (kitSelect > 150) {
+        playSdWav2.play(AudioSampleF3);
+      }
+      else if (kitSelect > 130) {
+        playSdWav2.play(AudioSampleG3);
+      }
+      else if (kitSelect < 130) {
+        playSdWav2.play(AudioSampleH3);
+      }
     }
 
     if (button3.fallingEdge())  {
-      if (kitSelect > 300 and kitSelect < 450) {
-        playMem3.play(AudioSampleA4);
+      if (channelsSampleMode[3] && assignedSamples[3] > -1) {
+        startPlayingRecording4();
       }
-      if (kitSelect > 450 and kitSelect < 610) {
-        playMem3.play(AudioSampleB4);
+      else if (kitSelect > 1000) {
+        playSdWav3.play(AudioSampleA4);
       }
-      if (kitSelect > 610 and kitSelect < 1000) {
-        playMem3.play(AudioSampleC4);
+      else if (kitSelect > 450) {
+        playSdWav3.play(AudioSampleB4);
       }
-      if (kitSelect > 1000) {
-        playMem3.play(AudioSampleD4);
+      else if (kitSelect > 300) {
+        playSdWav3.play(AudioSampleC4);
+      }
+      else if (kitSelect > 230) {
+        playSdWav3.play(AudioSampleD4);
+      }
+      else if (kitSelect > 180) {
+        playSdWav3.play(AudioSampleE4);
+      }
+      else if (kitSelect > 150) {
+        playSdWav3.play(AudioSampleF4);
+      }
+      else if (kitSelect > 130) {
+        playSdWav3.play(AudioSampleG4);
+      }
+      else if (kitSelect < 130) {
+        playSdWav3.play(AudioSampleH4);
       }
 
     }
     if (button4.fallingEdge())  {
-      if (kitSelect > 300 and kitSelect < 450) {
-        playMem4.play(AudioSampleA5);
+      if (channelsSampleMode[4] && assignedSamples[4] > -1) {
+        startPlayingRecording5();
       }
-      if (kitSelect > 450 and kitSelect < 610) {
-        playMem4.play(AudioSampleB5);
+      else if (kitSelect > 1000) {
+        playSdWav4.play(AudioSampleA5);
       }
-      if (kitSelect > 610 and kitSelect < 1000) {
-        playMem4.play(AudioSampleC5);
+      else if (kitSelect > 450) {
+        playSdWav4.play(AudioSampleB5);
       }
-      if (kitSelect > 1000) {
-        playMem4.play(AudioSampleD5);
+      else if (kitSelect > 300) {
+        playSdWav4.play(AudioSampleC5);
       }
-
+      else if (kitSelect > 230) {
+        playSdWav4.play(AudioSampleD5);
+      }
+      else if (kitSelect > 180) {
+        playSdWav4.play(AudioSampleE5);
+      }
+      else if (kitSelect > 150) {
+        playSdWav4.play(AudioSampleF5);
+      }
+      else if (kitSelect > 130) {
+        playSdWav4.play(AudioSampleG5);
+      }
+      else if (kitSelect < 130) {
+        playSdWav4.play(AudioSampleH5);
+      }
     }
   }
-    // If we're playing or recording, carry on...
+  // If we're playing or recording, carry on...
   if (recorder.mode == 1) recorder.continueRecording();
   if (recorder.mode == 3) continuePlayingRecording();
 }
 
 
-void checkForPlayerButton(Bounce SamplePlayer, int sampleIndex, int recordsIndex) {
-  if (SamplePlayer.fallingEdge()) {
-    Serial.print(">>> Play channel ");
-    Serial.println(sampleIndex+1);
-    if (recorder.mode == 1) recorder.stopRecording();
-    if (recorder.mode == 0 || recorder.mode == 3) startPlayingRecording(sampleIndex);
-    else if (recorder.mode == 2) assignSampleToChannel(recordsIndex, sampleIndex);
-  }
-}
-
-
-void startPlayingRecording(int channelIndex) {
-  if (!playRaw1.isPlaying()) playRaw1.stop();
-  Serial.print("startPlaying file ");
-  int fileIndex = assignedSamples[channelIndex];
-  Serial.println(fileIndex);
-  playRaw1.play(getFileNameFromIndex(fileIndex));
-  recorder.mode = 3;
-}
-
 void continuePlayingRecording() {
-  if (!playRaw1.isPlaying()) {
-    playRaw1.stop();
-    recorder.mode = 0;
+  for (int i = 0; i < 5; i++) {
+    if (!rawPlayers[i].isPlaying()) {
+      rawPlayers[i].stop();
+    }
   }
+  recorder.mode = 0;
 }
 
 void stopPlayingRecording() {
-  Serial.println("stopPlaying");
-  if (recorder.mode == 3) playRaw1.stop();
-  recorder.mode = 0;
+  //Serial.println("stopPlaying");
+  if (recorder.mode == 3) {
+    for (int i = 0; i < 5; i++) {
+      rawPlayers[i].stop();
+    }
+  }
 }
 
 void assignSampleToChannel(int sampleIndex, int channelIndex) {
-  Serial.print("Assigning sample ");
-  Serial.print(sampleIndex);
-  Serial.print(" to channel ");
-  Serial.println(channelIndex+1);
+  //Serial.print("Assigning sample ");
+  //Serial.print(sampleIndex);
+  //Serial.print(" to channel ");
+  //Serial.println(channelIndex + 1);
   assignedSamples[channelIndex] = sampleIndex;
   recorder.mode = 0;
   recorder.recordsIndex++;
+  if (recorder.recordsIndex > 4) recorder.recordsIndex = 0;
+  channelsSampleMode[channelIndex] = true;
+  //printAssignedSamples();
 }
+
+
+void toggleChannelSampleMode(int index) {
+  //Serial.print("Changing channel ");
+  //Serial.print(index);
+  //Serial.print(" sample mode to ");
+  //Serial.println(!channelsSampleMode[index]);
+  channelsSampleMode[index] = !channelsSampleMode[index];
+}
+
+void printAssignedSamples() {
+  Serial.print("{ ");
+  Serial.print(assignedSamples[0]);
+  Serial.print(", ");
+  Serial.print(assignedSamples[1]);
+  Serial.print(", ");
+  Serial.print(assignedSamples[2]);
+  Serial.print(", ");
+  Serial.print(assignedSamples[3]);
+  Serial.print(", ");
+  Serial.print(assignedSamples[4]);
+  Serial.println(" }");
+}
+
