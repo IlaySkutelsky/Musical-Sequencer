@@ -1066,11 +1066,11 @@ void loop() {
   mixer4.gain(3, (wetDrypot4 / 1024.0) * (buttonPushCounter3 % 2));
   mixer5.gain(0, (wetDrypot5 / 1024.0) * (buttonPushCounter5 % 2));
 
-  mixer5.gain(1, (wetDrypot1 / 1024.0) * (buttonPushCounter5 % 2));
-  mixer5.gain(2, (wetDrypot2 / 1024.0) * (buttonPushCounter4 % 2));
-  mixer5.gain(3, (wetDrypot3 / 1024.0) * (buttonPushCounter2 % 2));
-  mixer6.gain(0, (wetDrypot4 / 1024.0) * (buttonPushCounter1 % 2));
-  mixer6.gain(1, (wetDrypot5 / 1024.0) * (buttonPushCounter3 % 2));
+  mixer5.gain(1, (wetDrypot5 / 1024.0) * (buttonPushCounter5 % 2));
+  mixer5.gain(2, (wetDrypot1 / 1024.0) * (buttonPushCounter4 % 2));
+  mixer5.gain(3, (wetDrypot2 / 1024.0) * (buttonPushCounter2 % 2));
+  mixer6.gain(0, (wetDrypot3 / 1024.0) * (buttonPushCounter1 % 2));
+  mixer6.gain(1, (wetDrypot4 / 1024.0) * (buttonPushCounter3 % 2));
 
   mixer7.gain(0, (wetDrypot1 / 1024.0) * (buttonPushCounter4 % 2));
   mixer7.gain(1, (wetDrypot2 / 1024.0) * (buttonPushCounter2 % 2));
@@ -1078,11 +1078,11 @@ void loop() {
   mixer7.gain(3, (wetDrypot4 / 1024.0) * (buttonPushCounter3 % 2));
   mixer8.gain(0, (wetDrypot5 / 1024.0) * (buttonPushCounter5 % 2));
 
-  mixer8.gain(1, (wetDrypot1 / 1024.0) * (buttonPushCounter5 % 2));
-  mixer8.gain(2, (wetDrypot2 / 1024.0) * (buttonPushCounter4 % 2));
-  mixer8.gain(3, (wetDrypot3 / 1024.0) * (buttonPushCounter2 % 2));
-  mixer9.gain(0, (wetDrypot4 / 1024.0) * (buttonPushCounter1 % 2));
-  mixer9.gain(1, (wetDrypot5 / 1024.0) * (buttonPushCounter3 % 2));
+  mixer8.gain(1, (wetDrypot5 / 1024.0) * (buttonPushCounter5 % 2));
+  mixer8.gain(2, (wetDrypot1 / 1024.0) * (buttonPushCounter4 % 2));
+  mixer8.gain(3, (wetDrypot2 / 1024.0) * (buttonPushCounter2 % 2));
+  mixer9.gain(0, (wetDrypot3 / 1024.0) * (buttonPushCounter1 % 2));
+  mixer9.gain(1, (wetDrypot4 / 1024.0) * (buttonPushCounter3 % 2));
 
   //   SELECT
   int effectSelect = 300; //analogRead(A13);
